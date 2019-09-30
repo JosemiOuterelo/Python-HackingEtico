@@ -1,0 +1,6 @@
+usuario/usuario
+admin/admin
+root/root
+chule/chule
+chule/beticanos
+chule/chule123456

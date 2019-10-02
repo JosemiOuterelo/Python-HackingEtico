@@ -1,7 +1,0 @@
-usuario/usuario
-admin/admin
-root/root
-chule/chule
-msfadmin/msfadmin
-chule/chule123456
-msfadmin/adminadmin

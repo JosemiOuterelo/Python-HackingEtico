@@ -2,5 +2,6 @@ usuario/usuario
 admin/admin
 root/root
 chule/chule
-chule/beticanos
+msfadmin/msfadmin
 chule/chule123456
+msfadmin/adminadmin

@@ -48,10 +48,9 @@ def opcionespuerto():
 			print '***Respuesta desconocida,vuelva a intentarlo.'
 			i=0
 
-# La funcion ipred(lista) de que tipo es la IP de la red introduciza por el usuario (Clase A, B o C)
+# La funcion ipred(lista) indica de que tipo es la IP de la red introduciza por el usuario (Clase A, B o C)
 # dependiendo de su mascara de red
 def ipred(lista):
-	print lista
 	lista2 = lista[0].split('.')
 	if lista[1] == '8':
 		ip = str(lista2[0] + '.')
@@ -63,11 +62,11 @@ def ipred(lista):
 		ip = str(lista2[0] + '.' + lista2[1] + '.' + lista2[2] + '.')
 		tipo = 3
 	else:
-		print 'Mascara de red no valida'
+		print 'Mascara de red no valida. Mascaras validas: /8,/16,/24'
 		exit(0)
 	return ip,int(tipo)
 
-# La funcion escaneo, como su nombre indica, empezara el escaneo de puertos de un host
+# La funcion escaneo(host,puerto), como su nombre indica, empezara el escaneo de puertos de un host
 def escaneo(host,puerto=None):
         print '\n'
         print ' Resultado del escaneo de %s' %host

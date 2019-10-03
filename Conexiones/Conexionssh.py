@@ -2,9 +2,8 @@
 
 # Importamos el modulo paramiko con el que establecer conexions ssh facilmente
 import paramiko
-#import sys
 
-
+# Funcion conexionssh(host) para establecer conexion SSH con el host
 def conexionssh(host):
 # Abrimos nuestro fichero con las cuentas de usuarios en modo lectura
 	file = open('cuentas.txt','r')
@@ -33,6 +32,7 @@ def conexionssh(host):
 # Cerramos el fichero una vez abierto y recorrido
 	file.close()
 
+# Funcion ejecutar_comandos(ssh) para solicitar y ejecutar comandos en el host remoto
 def ejecutar_comandos(ssh):
 	i = 1
 	while(i == 1):

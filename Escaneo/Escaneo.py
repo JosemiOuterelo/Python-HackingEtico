@@ -1,8 +1,10 @@
 #!/usr/bin/python
 # encoding: utf-8
 
+# Importamos la biblioteca socket
 import socket
 
+# La funcion opcioneshost() solicita al usuario que introduzca un solo host una red entera
 def opcioneshost():
 	print 'SCRIPT PARA EL ESCANEO DE HOST'
         print '------------------------------'
@@ -18,6 +20,7 @@ def opcioneshost():
 	else:
 		return opcion
 
+# La funcion opcionespuerto() solicita al usuario que especifice puerto, o puertos, a escanear
 def opcionespuerto():
 	i=0
 	puerto = []
@@ -36,6 +39,7 @@ def opcionespuerto():
 			return puerto
 			i=1
 		if opcion == 'N':
+# Si el usuario quiere indicar mas de un puerto, se crea una lista de los puertos del 1 al 1024
 			for x in range(1,1024):
 				puerto.append(x)
 			return puerto
@@ -44,7 +48,8 @@ def opcionespuerto():
 			print '***Respuesta desconocida,vuelva a intentarlo.'
 			i=0
 
-
+# La funcion ipred(lista) de que tipo es la IP de la red introduciza por el usuario (Clase A, B o C)
+# dependiendo de su mascara de red
 def ipred(lista):
 	print lista
 	lista2 = lista[0].split('.')
@@ -62,21 +67,29 @@ def ipred(lista):
 		exit(0)
 	return ip,int(tipo)
 
+# La funcion escaneo, como su nombre indica, empezara el escaneo de puertos de un host
+def escaneo(host,puerto=None):
+        print '\n'
+        print ' Resultado del escaneo de %s' %host
+        print '--------------------------------------'
+        for p in puerto:
+# Creamos un socket INET de tipo STREAM
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Comprueba si ha habido algun error en la conexion, devuelve 0 si la conexion se realizo correctamente
+# en otro caso devuelve error en la conexion
+                if s.connect_ex((host,int(p))):
+                        print 'Puerto %s Cerrado' %(p)
+                else:
+                        print 'Puerto %s Abierto - ' %(p) + s.recv(1024)
+# Cerramos el socket
+                s.close()
 
+# Funcion escanearhost(host,puerto) para el escaeno de un solo host
 def escanearhost(host,puerto):
 	socket.setdefaulttimeout(2)
-	print '\n'
-	print ' Resultado del escaneo de %s' %(host)
-	print '----------------------------------------'
-	for p in puerto:
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		if s.connect_ex((host,int(p))):
-			print 'Puerto %s Cerrado' %(p)
-		else:
-			print 'Puerto %s Abierto - ' %(p) + s.recv(1024)
-		s.close()
-	
+	escaneo(host,puerto)
 
+# Funcion escanearred(ip,puerto,tipo) para el escaneo de los host de una red
 def escanearred(ip,puerto,tipo):
 	socket.setdefaulttimeout(2)
 	if tipo == 1:
@@ -84,45 +97,18 @@ def escanearred(ip,puerto,tipo):
 			for y in range(0,255):
 				for z in range(1,255):
 					host = ip + str(x) + '.' + str(y) + '.' + str(z)
-					print '\n'
-					print ' Resultado del escaneo de %s' %host
-					print '--------------------------------------'
-					for p in puerto:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-						if s.connect_ex((host,int(p))):
-							print 'Puerto %s Cerrado' %(p)
-                				else:
-							print 'Puerto %s Abierto - ' %(p) + s.recv(1024)
-                				s.close()
+					escaneo(host,puerto)
 				
 	if tipo == 2:
 		for x in range(0,255):
 			for y in range(1,255):
 				host = ip + str(x) + '.' + str(y)
-				print '\n'
-                		print ' Resultado del escaneo de %s' %host
-                		print '--------------------------------------'
-                		for p in puerto:
-					s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-					if s.connect_ex((host,int(p))):
-						print 'Puerto %s Cerrado' %(p)
-					else:
-						print 'Puerto %s Abierto - ' %(p) + s.recv(1024)
-					s.close()
+				escaneo(host,puerto)
 
 	if tipo == 3:
 		for x in range(1,255):
 			host = ip + str(x)
-			print '\n'
-			print ' Resultado del escaneo de %s' %host
-			print '----------------------------------------'
-			for p in puerto:
-				s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                		if s.connect_ex((host,int(p))):
-					print 'Puerto %s Cerrado' %(p)
-                		else:
-					print 'Puerto %s Abierto - ' %(p) + s.recv(1024)
-                		s.close()
+			escaneo(host,puerto)
                 
 
 def main():
